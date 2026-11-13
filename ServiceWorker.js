@@ -1,10 +1,10 @@
-// 🌟 建議把版本號改成 1.0.2，強迫瀏覽器清掉舊的 1.0.1 快取
-const cacheName = "Stemtitute-Stemtitute Kindergarten App-1.0.2"; 
+// 🌟 建議把版本號改成 1.0.3，強迫瀏覽器清掉舊的 1.0.1 或 1.0.2 快取
+const cacheName = "Stemtitute-Stemtitute Kindergarten App-1.0.3"; 
 const contentToCache = [
-    "Build/11133.loader.js",
-    "Build/11133.framework.js.unityweb",
-    "Build/11133.data.unityweb",
-    "Build/11133.wasm.unityweb",
+    "Build/11134.loader.js",
+    "Build/11134.framework.js.unityweb",
+    "Build/11134.data.unityweb",
+    "Build/11134.wasm.unityweb",
     "TemplateData/style.css"
 ];
 
@@ -41,11 +41,12 @@ self.addEventListener('activate', function (e) {
 });
 
 // ==========================================
-// 3. 網路請求攔截 (Fetch)
+// 3. 網路請求攔截 (Fetch) - 核心防護
 // ==========================================
 self.addEventListener('fetch', function (e) {
-    // 🛑【終極防護罩】如果是發往 AWS S3 的請求，直接放行！
-    // 讓 Addressables 自己去處理 IndexedDB 快取，避免重複下載。
+    // 🛑【終極防護罩】🛑
+    // 如果是發往 AWS S3 的請求，直接放行，完全不攔截！
+    // 讓 Addressables 自己去處理 IndexedDB 快取，避免重複下載大包。
     if (e.request.url.includes('amazonaws.com')) {
         return; 
     }
