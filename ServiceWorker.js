@@ -1,10 +1,23 @@
+const cacheName = "Stemtitute-Stemtitute Kindergarten App-1.0.1";
+const contentToCache = [
+    "Build/KindergartenWeb1113.loader.js",
+    "Build/KindergartenWeb1113.framework.js.gz",
+    "Build/KindergartenWeb1113.data.gz",
+    "Build/KindergartenWeb1113.wasm.gz",
+    "TemplateData/style.css"
+];
+
 // ==========================================
-// 1. 安裝階段 (Install)
+// 1. 安裝階段 (Install) - 保留你的預加載邏輯
 // ==========================================
 self.addEventListener('install', function (e) {
     console.log('[Service Worker] Install');
-    // 強制讓新的 Service Worker 跳過等待，立即進入激活狀態
-    self.skipWaiting(); 
+    e.waitUntil((async function () {
+        const cache = await caches.open(cacheName);
+        console.log('[Service Worker] Caching all: app shell and content');
+        await cache.addAll(contentToCache);
+    })());
+    self.skipWaiting();
 });
 
 // ==========================================
@@ -12,33 +25,42 @@ self.addEventListener('install', function (e) {
 // ==========================================
 self.addEventListener('activate', function (e) {
     console.log('[Service Worker] Activate');
-    // 確保新的 Service Worker 接管所有已開啟的頁面
     e.waitUntil(self.clients.claim());
 });
 
 // ==========================================
-// 3. 網路請求攔截 (Fetch) - 最核心的部分
+// 3. 網路請求攔截 (Fetch) - 核心修改區域
 // ==========================================
-self.addEventListener('fetch', function (event) {
+self.addEventListener('fetch', function (e) {
     // 🛑【終極防護罩】🛑
-    // 只要是發往 AWS S3 的請求 (包含了 amazonaws.com)，二話不說，直接放行！
-    // 絕對不攔截、不快取，讓 Unity 的 Addressables 自己去處理 IndexedDB 快取。
-    if (event.request.url.includes('amazonaws.com')) {
+    // 如果是發往 AWS S3 的請求，直接放行，完全不攔截！
+    if (e.request.url.includes('amazonaws.com')) {
         return; 
     }
 
-    // 以下是針對「你自己網站同源資源（如 HTML, CSS, JS）」的處理邏輯
-    // 採用「網路優先，失敗則讀取快取 (Network First, falling back to cache)」策略
-    // 這樣可以確保每次打開網頁都能拿到最新的 Unity 主程式，但斷網時依然能從快取載入。
-    event.respondWith(
-        fetch(event.request)
-            .then(function (response) {
-                // 如果請求成功，複製一份回應存入快取 (可選)
-                return response;
-            })
-            .catch(function () {
-                // 如果網路斷了，嘗試從快取中尋找
-                return caches.match(event.request);
-            })
-    );
+    // 以下邏輯僅針對同源資源 (你的 Unity 主程式、HTML、CSS)
+    e.respondWith((async function () {
+        // 1. 先從快取找
+        let response = await caches.match(e.request);
+        if (response) { 
+            return response; 
+        }
+
+        // 2. 快取沒有，去網路抓
+        try {
+            response = await fetch(e.request);
+            
+            // 只有當請求是同源 (basic) 或成功 (cors) 且狀態碼是 200 時，才存入快取
+            // 避免將錯誤的頁面或不支援的跨域請求存入
+            if (response && response.status === 200) {
+                const cache = await caches.open(cacheName);
+                // 複製一份 response 存入快取，回傳原本的給網頁
+                cache.put(e.request, response.clone());
+            }
+            return response;
+        } catch (error) {
+            console.error('[Service Worker] Fetch failed:', error);
+            // 如果網路斷了且快取也沒有，這裡可以選擇回傳一個自訂的離線頁面
+        }
+    })());
 });
