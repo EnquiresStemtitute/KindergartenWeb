@@ -40,6 +40,7 @@
     <type fullname="GenerateElectricityGame" preserve="all" />
     <type fullname="GiveDrinkGame" preserve="all" />
     <type fullname="GraduallyTransparent" preserve="all" />
+    <type fullname="InactiveAfterSeconds" preserve="all" />
     <type fullname="IonLineGame" preserve="all" />
     <type fullname="LanguageController" preserve="all" />
     <type fullname="LanguageControllerV2" preserve="all" />
@@ -76,6 +77,7 @@
     <type fullname="SubSceneTrophy" preserve="all" />
     <type fullname="SwipeSCript" preserve="all" />
     <type fullname="TrafficLightGame" preserve="all" />
+    <type fullname="UniversalSceneReloader" preserve="all" />
     <type fullname="VacuumGame" preserve="all" />
     <type fullname="WaterGame" preserve="all" />
     <type fullname="OptionScript/LanguageTextPair" preserve="nothing" serialized="true" />
