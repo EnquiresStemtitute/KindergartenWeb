@@ -1,11 +1,12 @@
 // 🌟 版本號改成 1.0.6
-const cacheName = "Stemtitute-Stemtitute Kindergarten App-1.0.6"; 
+const cacheName = "Stemtitute-Stemtitute Kindergarten App-1.0.7"; 
 const contentToCache = [
-    "Build/11137.loader.js",
-    "Build/11137.framework.js.unityweb",
-    "Build/11137.data.unityweb",
-    "Build/11137.wasm.unityweb",
+    "Build/11138.loader.js",
+    "Build/11138.framework.js.unityweb",
+    "Build/11138.data.unityweb",
+    "Build/11138.wasm.unityweb",
     "TemplateData/style.css"
+
 ];
 
 // ==========================================
