@@ -1,11 +1,11 @@
-// 🌟 建議把版本號改成 1.0.3，強迫瀏覽器清掉舊的 1.0.1 或 1.0.2 快取
-const cacheName = "Stemtitute-Stemtitute Kindergarten App-1.0.3"; 
+const cacheName = "Stemtitute-Stemtitute Kindergarten App-1.0.4";
 const contentToCache = [
-    "Build/11135.loader.js",
-    "Build/11135.framework.js.unityweb",
-    "Build/11135.data.unityweb",
-    "Build/11135.wasm.unityweb",
+    "Build/11136.loader.js",
+    "Build/11136.framework.js.unityweb",
+    "Build/11136.data.unityweb",
+    "Build/11136.wasm.unityweb",
     "TemplateData/style.css"
+
 ];
 
 // ==========================================
