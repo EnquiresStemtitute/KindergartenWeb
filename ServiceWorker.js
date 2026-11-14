@@ -1,9 +1,9 @@
-const cacheName = "Stemtitute-Stemtitute Kindergarten App-1.0.4";
+const cacheName = "Stemtitute-Stemtitute Kindergarten App-1.0.5";
 const contentToCache = [
-    "Build/11136.loader.js",
-    "Build/11136.framework.js.unityweb",
-    "Build/11136.data.unityweb",
-    "Build/11136.wasm.unityweb",
+    "Build/11137.loader.js",
+    "Build/11137.framework.js.unityweb",
+    "Build/11137.data.unityweb",
+    "Build/11137.wasm.unityweb",
     "TemplateData/style.css"
 
 ];
